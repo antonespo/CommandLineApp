@@ -1,6 +1,4 @@
-﻿using System;
-using System.CommandLine;
-using System.Runtime.CompilerServices;
+﻿using System.CommandLine;
 using Spectre.Console;
 
 // Options
@@ -18,8 +16,11 @@ var nameArgument = new Argument<string>
 
 
 var rootCommand = new RootCommand("Sample command-line app");
+
+// To define a global option (for commands and subcommands recursively)
 rootCommand.AddGlobalOption(delayOption);
-//rootCommand.Add(delayOption);
+
+// To add options or arguments to a command
 rootCommand.Add(messageOption);
 rootCommand.Add(nameArgument);
 
@@ -52,6 +53,7 @@ void RootCommandHandler(int delayOptionValue, string messageOptionValue, string 
     });
 }
 
+// Define a first level subcommand
 var subCommand = new Command("sub-command", "First-level subcommand");
 subCommand.SetHandler((delayOptionValue) => {
     AnsiConsole.MarkupLine("Hello from subcommand");
@@ -59,11 +61,8 @@ subCommand.SetHandler((delayOptionValue) => {
 }, delayOption);
 rootCommand.Add(subCommand);
 
+// Define a second level subcommand
 var sub1aCommand = new Command("sub1a", "Second level subcommand");
 subCommand.Add(sub1aCommand);
 
-// Usage: "Pluto" --delay 12 --message "Antonio"
-// Usage: sub-command --delay 12 
-// Usage: sub-command sub1a --delay 12 
-// Usage: type dotnet run 
 await rootCommand.InvokeAsync(args);
