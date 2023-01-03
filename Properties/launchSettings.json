@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CommandLineApp": {
+      "commandName": "Project",
+      "commandLineArgs": "\"Pluto\" --delay 12 --message \"Antonio\""
+    }
+  }
+}
